@@ -1,0 +1,22 @@
+{
+  "updated": "2026-11-10",
+  "sources": ["koffieboonus.nl", "folderz.nl", "supermarktscanner.nl"],
+  "deals": [
+    {"store": "Vomar", "product": "Lazarro koffiebonen", "grams": 1000, "price": 8.99, "normal": 14.99, "deal": "40% korting", "qty": 1, "until": "2026-11-14"},
+    {"store": "Albert Heijn", "product": "Segafredo Intermezzo bonen", "grams": 1000, "price": 9.70, "normal": 19.39, "deal": "1+1 gratis", "qty": 2, "until": "2026-11-15"},
+    {"store": "Jumbo", "product": "Melitta CaféBar Selection koffiebonen (4 soorten)", "grams": 1000, "price": 9.99, "normal": 19.99, "deal": "50% korting", "qty": 1, "until": "2026-11-10"},
+    {"store": "Jumbo", "product": "Jumbo's Beste Koffiebonen Aroma", "grams": 1000, "price": 11.24, "normal": 14.99, "deal": "2e halve prijs", "qty": 2, "until": "2026-11-10"},
+    {"store": "Albert Heijn", "product": "Segafredo bonen (Casa, Selezione, Intermezzo)", "grams": 500, "price": 5.85, "normal": 11.69, "deal": "1+1 gratis", "qty": 2, "until": "2026-11-15"},
+    {"store": "Jumbo", "product": "Jumbo's Beste Koffiebonen Crema, Espresso of Dark Roast", "grams": 1000, "price": 11.99, "normal": 15.99, "deal": "2e halve prijs", "qty": 2, "until": "2026-11-10"},
+    {"store": "Dirk", "product": "Douwe Egberts koffiebonen aroma rood", "grams": 1000, "price": 13.49, "normal": 18.49, "deal": "27% korting", "qty": 1, "until": "2026-11-10"},
+    {"store": "Dirk", "product": "Douwe Egberts koffiebonen espresso", "grams": 1000, "price": 13.49, "normal": 20.25, "deal": "33% korting", "qty": 1, "until": "2026-11-10"},
+    {"store": "Nettorama", "product": "Byzonder Lekker espresso bonen kilozak", "grams": 1000, "price": 13.95, "normal": 0, "deal": "Actieprijs", "qty": 1, "until": "2026-11-15"},
+    {"store": "Boni", "product": "Byzonder Lekker espresso bonen kilozak", "grams": 1000, "price": 13.95, "normal": 0, "deal": "Actieprijs", "qty": 1, "until": "2026-11-15"},
+    {"store": "Aldi", "product": "Douwe Egberts koffiebonen", "grams": 500, "price": 6.99, "normal": 9.99, "deal": "30% korting", "qty": 1, "until": "2026-11-15"},
+    {"store": "SPAR", "product": "Douwe Egberts Aroma Rood koffiebonen", "grams": 500, "price": 7.00, "normal": 9.99, "deal": "2 voor 13,99", "qty": 2, "until": "2026-11-18"},
+    {"store": "Dirk", "product": "Douwe Egberts Aroma Variaties koffiebonen", "grams": 500, "price": 8.99, "normal": 11.45, "deal": "22% korting", "qty": 1, "until": "2026-11-10"},
+    {"store": "Poiesz", "product": "L'OR Espresso koffiebonen (Onyx, Forza, Fortissimo)", "grams": 500, "price": 9.00, "normal": 13.29, "deal": "32% korting", "qty": 1, "until": "2026-11-14"},
+    {"store": "Poiesz", "product": "Douwe Egberts koffiebonen (diverse soorten)", "grams": 500, "price": 9.00, "normal": 12.99, "deal": "31% korting", "qty": 1, "until": "2026-11-14"},
+    {"store": "Hoogvliet", "product": "Lavazza koffiebonen (Barista, Qualità Oro, Classico)", "grams": 500, "price": 10.49, "normal": 16.49, "deal": "tot 36% korting", "qty": 1, "until": "2026-11-10"}
+  ]
+}
