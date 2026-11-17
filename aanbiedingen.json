@@ -1,22 +1,18 @@
 {
-  "updated": "2026-11-14",
-  "sources": ["koffieboonus.nl", "allefolders.nl", "superscout.nl"],
+  "updated": "2026-11-17",
+  "sources": ["koffieboonus.nl", "supermarktscanner.nl", "superscout.nl", "allefolders.nl"],
   "deals": [
-    {"store": "Vomar", "product": "Lazarro koffiebonen", "grams": 1000, "price": 8.99, "normal": 14.99, "deal": "40% korting", "qty": 1, "until": "2026-11-14"},
-    {"store": "Albert Heijn", "product": "Segafredo Intermezzo bonen", "grams": 1000, "price": 9.70, "normal": 19.39, "deal": "1+1 gratis", "qty": 2, "until": "2026-11-15"},
-    {"store": "Albert Heijn", "product": "Segafredo bonen (Casa, Selezione crema, Selezione espresso, Intermezzo)", "grams": 500, "price": 5.85, "normal": 11.69, "deal": "1+1 gratis", "qty": 2, "until": "2026-11-15"},
-    {"store": "Albert Heijn", "product": "Segafredo Selezione organica espresso bonen", "grams": 500, "price": 6.35, "normal": 12.69, "deal": "1+1 gratis", "qty": 2, "until": "2026-11-15"},
-    {"store": "Nettorama", "product": "Byzonder Lekker espresso bonen kilozak", "grams": 1000, "price": 13.95, "normal": 0, "deal": "Actieprijs", "qty": 1, "until": "2026-11-15"},
-    {"store": "Boni", "product": "Byzonder Lekker espresso bonen kilozak", "grams": 1000, "price": 13.95, "normal": 0, "deal": "Actieprijs", "qty": 1, "until": "2026-11-15"},
-    {"store": "Aldi", "product": "Douwe Egberts koffiebonen", "grams": 500, "price": 6.99, "normal": 9.99, "deal": "30% korting", "qty": 1, "until": "2026-11-15"},
+    {"store": "Aldi", "product": "Barissimo koffiebonen Milano crema of Siciliano espresso", "grams": 1000, "price": 9.99, "normal": 0, "deal": "Actieprijs", "qty": 1, "until": "2026-11-22"},
+    {"store": "Nettorama", "product": "Byzonder Lekker espresso bonen kilozak", "grams": 1000, "price": 13.95, "normal": 0, "deal": "Actieprijs", "qty": 1, "until": "2026-11-22"},
+    {"store": "Boni", "product": "Byzonder Lekker espresso bonen kilozak", "grams": 1000, "price": 13.95, "normal": 0, "deal": "Actieprijs", "qty": 1, "until": "2026-11-22"},
     {"store": "SPAR", "product": "Douwe Egberts Aroma Rood koffiebonen", "grams": 500, "price": 7.00, "normal": 9.99, "deal": "2 voor 13,99", "qty": 2, "until": "2026-11-18"},
+    {"store": "Vomar", "product": "Segafredo koffiebonen", "grams": 500, "price": 7.99, "normal": 10.99, "deal": "27% korting", "qty": 1, "until": "2026-11-21"},
     {"store": "Hoogvliet", "product": "Douwe Egberts koffiebonen (Mocca, Excellent, Espresso, Intens, Decafé)", "grams": 500, "price": 8.99, "normal": 11.79, "deal": "tot 24% korting", "qty": 1, "until": "2026-11-17"},
-    {"store": "Poiesz", "product": "L'OR Espresso koffiebonen (Onyx, Forza, Fortissimo)", "grams": 500, "price": 9.00, "normal": 13.29, "deal": "32% korting", "qty": 1, "until": "2026-11-14"},
-    {"store": "Poiesz", "product": "Douwe Egberts koffiebonen (7 soorten)", "grams": 500, "price": 9.00, "normal": 12.99, "deal": "tot 31% korting", "qty": 1, "until": "2026-11-14"},
-    {"store": "Poiesz", "product": "L'OR koffiebonen Scandinavia of Capri", "grams": 450, "price": 9.00, "normal": 13.69, "deal": "34% korting", "qty": 1, "until": "2026-11-14"},
-    {"store": "Poiesz", "product": "Douwe Egberts Excellent koffiebonen Uganda Kenya", "grams": 450, "price": 9.00, "normal": 12.99, "deal": "31% korting", "qty": 1, "until": "2026-11-14"},
+    {"store": "Dirk", "product": "Douwe Egberts Aroma Variaties koffiebonen (Mocca, Excellent)", "grams": 500, "price": 8.99, "normal": 11.45, "deal": "Actieprijs", "qty": 1, "until": "2026-11-17"},
+    {"store": "Coop", "product": "Douwe Egberts Excellent of L'OR espresso bonen (450-500 g)", "grams": 450, "price": 9.49, "normal": 0, "deal": "Actieprijs", "qty": 1, "until": "2026-11-22"},
+    {"store": "Boon's Markt", "product": "Douwe Egberts Excellent of L'OR espresso bonen (450-500 g)", "grams": 450, "price": 9.49, "normal": 10.99, "deal": "14% korting", "qty": 1, "until": "2026-11-22"},
+    {"store": "MCD", "product": "Douwe Egberts Excellent of L'OR espresso bonen (450-500 g)", "grams": 450, "price": 9.49, "normal": 0, "deal": "Actieprijs", "qty": 1, "until": "2026-11-22"},
     {"store": "Ekoplaza", "product": "Ekoplaza Arabica koffiebonen", "grams": 1000, "price": 23.39, "normal": 25.99, "deal": "10% korting", "qty": 1, "until": "2026-11-17"},
-    {"store": "Ekoplaza", "product": "Ekoplaza Koffiebonen arabica", "grams": 500, "price": 12.09, "normal": 13.49, "deal": "10% korting", "qty": 1, "until": "2026-11-17"},
-    {"store": "Poiesz", "product": "Douwe Egberts Excellent koffiebonen Brazil Columbia", "grams": 450, "price": 12.99, "normal": 0, "deal": "Actieprijs", "qty": 1, "until": "2026-11-14"}
+    {"store": "Ekoplaza", "product": "Ekoplaza Koffiebonen arabica", "grams": 500, "price": 12.09, "normal": 13.49, "deal": "10% korting", "qty": 1, "until": "2026-11-17"}
   ]
 }
