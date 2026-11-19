@@ -1,0 +1,9 @@
+{
+  // Koffie op kantoor: static page in ./public, login and storage in src/worker.js
+  "name": "kcn-koffie",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-01-01",
+  "keep_vars": true,
+  "assets": { "directory": "./public", "binding": "ASSETS" },
+  "d1_databases": [{ "binding": "DB", "database_name": "kcn-koffie" }]
+}

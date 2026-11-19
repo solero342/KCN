@@ -1,7 +1,7 @@
-import { clean, applyOp, cleanConfig } from '../../lib/state.js';
+import { clean, applyOp, cleanConfig } from '../lib/state.js';
 
 // Server side of "Koffie op kantoor": one shared password, data in a D1 database.
-// Needs two things set on the Pages project: a secret SITE_PASSWORD and a D1 binding named DB.
+// Needs a secret SITE_PASSWORD on the Worker; the D1 binding DB comes from wrangler.jsonc.
 const te = new TextEncoder();
 const json = (obj, status = 200, headers = {}) => new Response(JSON.stringify(obj), { status, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store', ...headers } });
 const hex = buf => [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
@@ -57,11 +57,11 @@ async function login(request, env) {
   return json({ ok: true }, 200, { 'Set-Cookie': cookie(exp + '.' + await sign(env.SITE_PASSWORD, exp), body.remember ? 30 * 86400 : null) });
 }
 
-export async function onRequest({ request, env, params }) {
-  const route = [].concat(params.route || []).join('/'), method = request.method;
+async function handleApi(request, env, route) {
+  const method = request.method;
   if (!env.SITE_PASSWORD || !env.DB) {
     const miss = [!env.SITE_PASSWORD && 'het geheim SITE_PASSWORD', !env.DB && 'de D1-koppeling DB'].filter(Boolean).join(' en ');
-    return json({ error: 'setup', message: 'De site is nog niet klaar: in Cloudflare ontbreekt ' + miss + '. Stel dat in en zet de site daarna opnieuw live.' }, 503);
+    return json({ error: 'setup', message: 'De site is nog niet klaar: in Cloudflare ontbreekt ' + miss + '. Voeg dat toe bij Settings > Variables and Secrets van deze Worker.' }, 503);
   }
   try {
     if (method !== 'GET') {
@@ -110,3 +110,11 @@ export async function onRequest({ request, env, params }) {
     return json({ error: 'server', message: String((e && e.message) || e) }, (e && e.status) || 500);
   }
 }
+
+export default {
+  async fetch(request, env) {
+    const path = new URL(request.url).pathname;
+    if (path.startsWith('/api/')) return handleApi(request, env, path.slice(5).replace(/\/+$/, ''));
+    return env.ASSETS.fetch(request);
+  },
+};
