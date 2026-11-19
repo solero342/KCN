@@ -46,7 +46,8 @@ async function login(request, env) {
   const f = await db.prepare('SELECT c, t FROM fails WHERE ip = ?').bind(ip).first();
   if (f && f.c >= LOCK_AFTER && now - f.t < LOCK_MS) return json({ error: 'locked', message: 'Te vaak een verkeerd wachtwoord. Probeer het over een kwartier opnieuw.' }, 429);
   const body = await readBody(request, 2000);
-  const ok = safeEq(await sha('pw|' + String(body.password || '')), await sha('pw|' + env.SITE_PASSWORD));
+  // ignore stray spaces or a newline from copy-paste, on either side
+  const ok = safeEq(await sha('pw|' + String(body.password || '').trim()), await sha('pw|' + String(env.SITE_PASSWORD).trim()));
   if (!ok) {
     const c = f && now - f.t < LOCK_MS ? f.c + 1 : 1;
     await db.prepare('INSERT INTO fails (ip, c, t) VALUES (?, ?, ?) ON CONFLICT(ip) DO UPDATE SET c = excluded.c, t = excluded.t').bind(ip, c, now).run();
