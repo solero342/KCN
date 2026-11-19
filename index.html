@@ -192,10 +192,10 @@ input[type=file]{font-size:14px;max-width:100%}
 .check{display:flex;gap:8px;align-items:center;font-size:15px;color:var(--muted);cursor:pointer}
 .check input{width:18px;height:18px;accent-color:var(--brand)}
 #admin{gap:0}
-#admin[open]{gap:18px}
-.adm{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;padding-top:14px;border-top:1px solid var(--tint2)}
-#tokenForm{grid-template-columns:1fr auto}
-@media (max-width:620px){.adm,#tokenForm{grid-template-columns:1fr}.adm .btn{justify-self:start}}
+#admin[open]{gap:16px}
+.adm{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+.adm .btn{justify-self:start;align-self:end}
+@media (max-width:620px){.adm{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -206,28 +206,9 @@ input[type=file]{font-size:14px;max-width:100%}
     <form id="lockForm" hidden novalidate>
       <label class="f" for="pw">Wachtwoord
         <input type="password" id="pw" autocomplete="current-password"></label>
-      <label class="check" for="remember"><input type="checkbox" id="remember"> Onthoud het wachtwoord op dit apparaat</label>
+      <label class="check" for="remember"><input type="checkbox" id="remember"> Blijf 30 dagen ingelogd op dit apparaat</label>
       <button class="btn" type="submit" id="unlockBtn">Openen</button>
       <p class="err" id="lockErr" role="alert"></p>
-    </form>
-    <form id="setupForm" hidden novalidate>
-      <label class="f" for="suPw">Wachtwoord voor de site (minstens 12 tekens)
-        <input type="password" id="suPw" autocomplete="new-password"></label>
-      <label class="f" for="suPw2">Wachtwoord nog een keer
-        <input type="password" id="suPw2" autocomplete="new-password"></label>
-      <label class="f" for="suToken">GitHub-sleutel (begint met github_pat_)
-        <input type="password" id="suToken" autocomplete="off"></label>
-      <label class="f" for="suPeople">Namen in de beurtrol, één per regel
-        <textarea id="suPeople" rows="7"></textarea></label>
-      <label class="f" for="suGuests">Namen buiten de beurtrol (optioneel)
-        <textarea id="suGuests" rows="2"></textarea></label>
-      <label class="f" for="suLogo">Logo (optioneel, afbeelding)
-        <input type="file" id="suLogo" accept="image/*"></label>
-      <label class="f" for="suBackup">Back-up van het oude bestand terugzetten (optioneel)
-        <input type="file" id="suBackup" accept="application/json,.json"></label>
-      <label class="check" for="suRemember"><input type="checkbox" id="suRemember"> Onthoud het wachtwoord op dit apparaat</label>
-      <button class="btn" type="submit" id="suBtn">Instellen en openen</button>
-      <p class="err" id="suErr" role="alert"></p>
     </form>
   </div>
 </main>
@@ -346,36 +327,26 @@ input[type=file]{font-size:14px;max-width:100%}
   </section>
 
   <details class="card" id="admin">
-    <summary>Beheer: namen, wachtwoord en GitHub-sleutel</summary>
+    <summary>Beheer: namen en logo</summary>
     <form id="namesForm" class="adm" novalidate>
       <label class="f" for="adPeople">Namen in de beurtrol, één per regel
         <textarea id="adPeople" rows="7"></textarea></label>
       <label class="f" for="adGuests">Namen buiten de beurtrol
-        <textarea id="adGuests" rows="3"></textarea></label>
-      <button class="btn ghost" type="submit">Namen opslaan</button>
+        <textarea id="adGuests" rows="7"></textarea></label>
+      <label class="f" for="adLogo">Logo vervangen (optioneel)
+        <input type="file" id="adLogo" accept="image/*"></label>
+      <button class="btn ghost" type="submit">Opslaan</button>
     </form>
-    <form id="tokenForm" class="adm" novalidate>
-      <label class="f" for="adToken">Nieuwe GitHub-sleutel
-        <input type="password" id="adToken" autocomplete="off"></label>
-      <button class="btn ghost" type="submit">Sleutel vervangen</button>
-    </form>
-    <form id="pwForm" class="adm" novalidate>
-      <label class="f" for="adPw">Nieuw wachtwoord (minstens 12 tekens)
-        <input type="password" id="adPw" autocomplete="new-password"></label>
-      <label class="f" for="adPw2">Nieuw wachtwoord nog een keer
-        <input type="password" id="adPw2" autocomplete="new-password"></label>
-      <button class="btn ghost" type="submit">Wachtwoord wijzigen</button>
-    </form>
-    <p class="muted" id="adMsg" role="status"></p>
+    <p class="muted" id="adMsg" role="status">Het wachtwoord van de site wijzig je in Cloudflare, bij de instellingen van dit project.</p>
   </details>
 
   <footer>
-    <span id="saveNote">Gegevens staan versleuteld online en zijn gedeeld met iedereen die het wachtwoord heeft.</span>
+    <span id="saveNote">Gegevens zijn gedeeld met iedereen die het wachtwoord heeft.</span>
     <span class="row">
       <button class="btn ghost small" type="button" id="exportBtn">Back-up opslaan</button>
       <label class="btn ghost small" for="importFile" tabindex="0" id="importLbl">Back-up terugzetten</label>
       <input type="file" id="importFile" accept="application/json,.json">
-      <button class="btn ghost small" type="button" id="lockBtn">Vergrendelen</button>
+      <button class="btn ghost small" type="button" id="lockBtn">Uitloggen</button>
     </span>
   </footer>
 </div>
@@ -383,9 +354,8 @@ input[type=file]{font-size:14px;max-width:100%}
 <script>
 (function(){
 "use strict";
-const REPO='solero342/KCN',BRANCH='data',API='https://api.github.com/repos/'+REPO+'/contents/';
-const FEED_URL='https://raw.githubusercontent.com/'+REPO+'/main/aanbiedingen.json';
-const FEEDKEY='koffie-aanbiedingen-v1',THEMEKEY='koffie-thema',VAULTKEY='kcn-kluis',REMKEY='kcn-sleutel',ITER=600000;
+const FEED_URL='aanbiedingen.json';
+const FEEDKEY='koffie-aanbiedingen-v1',THEMEKEY='koffie-thema';
 let PEOPLE=[],GUESTS=[];
 const $=id=>document.getElementById(id);
 function h(tag,props,...kids){const e=document.createElement(tag);for(const k in props||{}){const v=props[k];if(k==='class')e.className=v;else if(k.slice(0,2)==='on')e.addEventListener(k.slice(2),v);else if(v===true)e.setAttribute(k,'');else if(v!==false&&v!=null)e.setAttribute(k,v)}for(const c of kids.flat()){if(c==null||c===false)continue;e.append(c.nodeType?c:document.createTextNode(String(c)))}return e}
@@ -401,17 +371,6 @@ const zak=n=>n+' '+(n===1?'zak':'zakken');
 const OPEN={vol:'Vol',half:'Half',laag:'Bijna leeg',geen:'Geen open zak'};
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
 const nameList=t=>[...new Set(String(t||'').split(/[\n,;]+/).map(s=>s.trim().slice(0,30)).filter(Boolean))].slice(0,40);
-
-/* ---------- encryption: everything personal is sealed with the shared password ---------- */
-const te=new TextEncoder(),td=new TextDecoder();
-const b64=buf=>{let s='';const u=new Uint8Array(buf);for(let i=0;i<u.length;i+=0x8000)s+=String.fromCharCode.apply(null,u.subarray(i,i+0x8000));return btoa(s)};
-const unb64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
-async function deriveKey(pw,salt,iter){
-  const base=await crypto.subtle.importKey('raw',te.encode(pw),'PBKDF2',false,['deriveKey']);
-  return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:iter,hash:'SHA-256'},base,{name:'AES-GCM',length:256},true,['encrypt','decrypt']);
-}
-async function seal(key,obj){const iv=crypto.getRandomValues(new Uint8Array(12));const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},key,te.encode(JSON.stringify(obj)));return {iv:b64(iv),ct:b64(ct)}}
-async function unseal(key,box){return JSON.parse(td.decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(box.iv)},key,unb64(box.ct))))}
 
 /* ---------- state ---------- */
 const blank=()=>({checks:{},stock:[],deals:[],buys:[],settings:{maxBags:8,minBags:2}});
@@ -451,85 +410,56 @@ function applyOp(s,op){
 }
 let S=blank(),FEED=null,feedState='';
 try{FEED=cleanFeed(JSON.parse(localStorage.getItem(FEEDKEY)||'null'))}catch(e){}
-let KEY=null,CFG=null,VAULT=null,sha=null,etag=null,pending=[],pushing=false,pushTimer=null,fails=0;
+let CFG={people:[],guests:[],logo:''},ver=-1,cver=-1,pending=[],pushing=false,pushTimer=null,fails=0,live=false,timers=false;
 function keepFocus(fn){const id=document.activeElement&&document.activeElement.id;fn();if(id){const e=$(id);if(e&&e!==document.activeElement)e.focus()}}
-function act(op){S=applyOp(S,op);pending.push(op);keepFocus(renderAll);schedulePush()}
+function act(op){op.i=uid();S=applyOp(S,op);pending.push(op);keepFocus(renderAll);schedulePush()}
 
-/* ---------- GitHub as the shared store ---------- */
+/* ---------- talking to the server ---------- */
 function setSync(txt,cls){const e=$('sync');e.textContent=txt;e.className='pill '+(cls||'soft')}
-async function gh(method,path,opt){
-  opt=opt||{};
-  const hd={'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'};
-  if(opt.token)hd.Authorization='Bearer '+opt.token;
-  if(opt.etag)hd['If-None-Match']=opt.etag;
-  const init={method,headers:hd,cache:'no-store'};
-  if(opt.body){hd['Content-Type']='application/json';init.body=JSON.stringify(opt.body)}
-  const r=await fetch(API+path+(method==='GET'?'?ref='+BRANCH:''),init);
-  let json=null;if(r.status!==304&&r.status!==204){try{json=await r.json()}catch(e){}}
-  return {status:r.status,json,etag:r.headers.get('ETag')};
+async function api(method,path,body){
+  const init={method,headers:{},cache:'no-store',credentials:'same-origin'};
+  if(body){init.headers['Content-Type']='application/json';init.body=JSON.stringify(body)}
+  const r=await fetch('api/'+path,init);let j=null;try{j=await r.json()}catch(e){}
+  return {status:r.status,json:j||{}};
 }
-const fileText=j=>atob(String(j.content||'').replace(/\s/g,''));
-function relock(msg){try{localStorage.removeItem(REMKEY);sessionStorage.setItem('kcn-melding',msg||'')}catch(e){}location.reload()}
+function applyConfig(){
+  PEOPLE=CFG.people||[];GUESTS=CFG.guests||[];
+  if(CFG.logo){$('logo').src=CFG.logo;$('logoWrap').hidden=false}else $('logoWrap').hidden=true;
+  const sel=$('bWho'),cur=sel.value;sel.replaceChildren(...PEOPLE.concat(GUESTS).map(n=>h('option',null,n)));if(cur)sel.value=cur;
+  if(document.activeElement!==$('adPeople'))$('adPeople').value=PEOPLE.join('\n');
+  if(document.activeElement!==$('adGuests'))$('adGuests').value=GUESTS.join('\n');
+  keepFocus(renderAll);
+}
+function takeState(j){
+  if(j.config){CFG=j.config;cver=j.cv;applyConfig()}
+  if(j.data){let s=clean(j.data);pending.forEach(op=>{s=applyOp(s,op)});S=s;ver=j.v;keepFocus(renderAll)}
+}
+function gateMsg(t){$('gateMsg').textContent=t}
+function toGate(msg){live=false;$('app').hidden=true;$('gate').hidden=false;$('lockForm').hidden=false;gateMsg(msg||'Vul het wachtwoord in om verder te gaan.');$('pw').value='';$('unlockBtn').disabled=false;$('unlockBtn').textContent='Openen';$('pw').focus()}
 async function pull(){
-  const r=await gh('GET','data.json',{token:CFG.token,etag});
-  if(r.status===304)return true;
-  if(r.status===401){setSync('GitHub-sleutel verlopen','crit');return false}
-  let remote;
-  if(r.status===404){remote=blank();sha=null;etag=null}
-  else if(r.status===200){
-    try{remote=clean(await unseal(KEY,JSON.parse(fileText(r.json))))}
-    catch(e){relock('Het wachtwoord is gewijzigd. Vul het nieuwe wachtwoord in.');return false}
-    sha=r.json.sha;etag=r.etag;
-  }else throw new Error('pull '+r.status);
-  pending.forEach(op=>{remote=applyOp(remote,op)});S=remote;keepFocus(renderAll);return true;
+  const r=await api('GET','state?v='+ver+'&cv='+cver);
+  if(r.status===401){toGate('Je bent uitgelogd. Vul het wachtwoord opnieuw in.');return false}
+  if(r.status!==200)throw new Error(r.status);
+  takeState(r.json);return true;
 }
-function schedulePush(ms){clearTimeout(pushTimer);setSync('Opslaan…');pushTimer=setTimeout(push,ms||1200)}
+function schedulePush(ms){clearTimeout(pushTimer);setSync('Opslaan…');pushTimer=setTimeout(push,ms||700)}
 async function push(){
-  if(pushing||!pending.length||!KEY)return;pushing=true;
+  if(pushing||!pending.length||!live)return;pushing=true;
   try{
-    for(let tries=0;tries<5&&pending.length;tries++){
-      const n=pending.length,body={message:'Werk koffiegegevens bij',branch:BRANCH,content:btoa(JSON.stringify(await seal(KEY,S)))};
-      if(sha)body.sha=sha;
-      const r=await gh('PUT','data.json',{token:CFG.token,body});
-      if(r.status===200||r.status===201){sha=r.json.content.sha;etag=null;pending.splice(0,n);fails=0;continue}
-      if(r.status===409||r.status===422){etag=null;if(!await pull())return;continue}
-      if(r.status===401){setSync('GitHub-sleutel verlopen','crit');return}
-      throw new Error('push '+r.status);
-    }
-    if(pending.length){setSync('Niet opgeslagen, opnieuw proberen…','warn');pushTimer=setTimeout(push,10000)}else setSync('Opgeslagen','ok');
-  }catch(e){fails++;setSync('Niet opgeslagen, opnieuw proberen…','warn');clearTimeout(pushTimer);pushTimer=setTimeout(push,Math.min(60000,5000*fails))}
+    const batch=pending.slice(),r=await api('POST','ops',{ops:batch});
+    if(r.status===401){toGate('Je bent uitgelogd. Vul het wachtwoord opnieuw in, dan worden je laatste wijzigingen alsnog opgeslagen.');return}
+    if(r.status===400||r.status===413){pending.splice(0,batch.length);await pull();setSync('Een wijziging is geweigerd','crit');return}
+    if(r.status!==200)throw new Error(r.status);
+    pending.splice(0,batch.length);fails=0;takeState(r.json);
+    if(pending.length)schedulePush(300);else setSync('Opgeslagen','ok');
+  }catch(e){fails++;setSync('Niet opgeslagen, opnieuw proberen…','warn');clearTimeout(pushTimer);pushTimer=setTimeout(push,Math.min(60000,4000*fails))}
   finally{pushing=false}
 }
 function poll(){
-  if(!KEY||pushing||pending.length||document.visibilityState!=='visible')return;
+  if(!live||pushing||pending.length||document.visibilityState!=='visible')return;
   pull().then(ok=>{if(ok&&!pending.length)setSync('Actueel','ok')}).catch(()=>setSync('Geen verbinding','warn'));
 }
 addEventListener('beforeunload',ev=>{if(pending.length){ev.preventDefault();ev.returnValue=''}});
-
-async function fetchVault(){
-  try{
-    const r=await gh('GET','kluis.json');
-    if(r.status===404)return null;
-    if(r.status===200){const v=JSON.parse(fileText(r.json));try{localStorage.setItem(VAULTKEY,JSON.stringify(v))}catch(e){}return v}
-    throw new Error(r.status);
-  }catch(e){
-    let c=null;try{c=JSON.parse(localStorage.getItem(VAULTKEY)||'null')}catch(_){}
-    if(c&&c.salt)return c;throw e;
-  }
-}
-async function saveVault(key,salt,secret,token){
-  const cur=await gh('GET','kluis.json',{token});
-  if(cur.status===401)throw new Error('De GitHub-sleutel klopt niet of is verlopen.');
-  const box={v:1,salt,iter:ITER,secret:await seal(key,secret)};
-  const body={message:'Werk instellingen bij',branch:BRANCH,content:btoa(JSON.stringify(box))};
-  if(cur.status===200)body.sha=cur.json.sha;
-  const r=await gh('PUT','kluis.json',{token,body});
-  if(r.status===401)throw new Error('De GitHub-sleutel klopt niet of is verlopen.');
-  if(r.status===403||r.status===404)throw new Error('De sleutel mag niet schrijven in de KCN-repo. Controleer bij de sleutel: alleen repo KCN, en Contents op "Read and write".');
-  if(r.status!==200&&r.status!==201)throw new Error('Opslaan is niet gelukt (code '+r.status+'). Probeer het opnieuw.');
-  VAULT=box;try{localStorage.setItem(VAULTKEY,JSON.stringify(box))}catch(e){}
-}
-async function remember(key){try{localStorage.setItem(REMKEY,JSON.stringify({salt:VAULT.salt,k:b64(await crypto.subtle.exportKey('raw',key))}))}catch(e){}}
 
 /* ---------- bean check ---------- */
 function latest(){const ks=Object.keys(S.checks).sort();return ks.length?S.checks[ks[ks.length-1]]:null}
@@ -591,6 +521,7 @@ function renderBuys(){
   $('buyTotal').textContent=S.buys.length?eur.format(total)+' in totaal':'';
   const log=$('buyLog');log.replaceChildren();
   const rows=S.buys.slice().sort((a,b)=>a.date<b.date?1:a.date>b.date?-1:0);
+  if(!PEOPLE.length)ul.append(h('li',{class:'empty'},'Nog geen namen. Vul ze in onder Beheer, onderaan de pagina.'));
   if(!rows.length)log.append(h('li',{class:'empty'},'Nog geen aankopen. Vul hierboven in wie er koffie heeft gehaald en wat het kostte.'));
   rows.slice(0,buyAll?rows.length:5).forEach(b=>log.append(h('li',null,
     h('span',{class:'muted num'},dShort(b.date)),
@@ -730,107 +661,52 @@ $('importFile').addEventListener('change',async ev=>{
   try{act({t:'replace',state:JSON.parse(await readFile(f))});$('saveNote').textContent='Back-up teruggezet voor iedereen.'}
   catch(e){$('saveNote').textContent='Dit bestand is geen geldige back-up. Kies een koffie-backup .json bestand.'}
 });
-$('lockBtn').addEventListener('click',()=>{if(pending.length){$('saveNote').textContent='Wacht tot er Opgeslagen staat en vergrendel dan.';return}relock('')});
+$('lockBtn').addEventListener('click',async()=>{
+  if(pending.length){$('saveNote').textContent='Wacht tot er Opgeslagen staat en log dan uit.';return}
+  try{await api('POST','logout')}catch(e){}
+  S=blank();CFG={people:[],guests:[],logo:''};ver=-1;cver=-1;applyConfig();toGate('Je bent uitgelogd.');
+});
 
-/* ---------- gate: unlock or first-time setup ---------- */
-function gateMsg(t){$('gateMsg').textContent=t}
-async function startApp(){
-  PEOPLE=nameList((CFG.people||[]).join('\n'));GUESTS=nameList((CFG.guests||[]).join('\n')).filter(n=>!PEOPLE.includes(n));
-  if(CFG.logo&&/^data:image\//.test(CFG.logo)){$('logo').src=CFG.logo;$('logoWrap').hidden=false}
-  $('bWho').replaceChildren(...PEOPLE.concat(GUESTS).map(n=>h('option',null,n)));
-  $('bDate').value=today();$('adPeople').value=PEOPLE.join('\n');$('adGuests').value=GUESTS.join('\n');
-  $('gate').hidden=true;$('app').hidden=false;themeBtn();renderAll();setSync('Laden…');
-  try{if(await pull())setSync('Actueel','ok')}catch(e){setSync('Geen verbinding','warn')}
+/* ---------- gate ---------- */
+async function enter(){
+  $('bDate').value=today();
+  const r=await api('GET','state?v='+ver+'&cv='+cver);
+  if(r.status===401){toGate();return}
+  if(r.status===503){$('lockForm').hidden=true;gateMsg(r.json.message||'De site is nog niet ingesteld.');return}
+  if(r.status!==200){$('lockForm').hidden=true;gateMsg('De site kan de gegevens niet bereiken. Ververs de pagina om het opnieuw te proberen.');return}
+  live=true;takeState(r.json);$('gate').hidden=true;$('app').hidden=false;renderAll();
+  if(pending.length)schedulePush(100);else setSync('Actueel','ok');
   loadFeed(false);
-  setInterval(poll,45000);setInterval(()=>loadFeed(false),3*60*60*1000);
-  document.addEventListener('visibilitychange',poll);
+  if(!timers){timers=true;setInterval(poll,30000);setInterval(()=>loadFeed(false),3*60*60*1000);document.addEventListener('visibilitychange',poll)}
 }
 $('lockForm').addEventListener('submit',async ev=>{
   ev.preventDefault();const btn=$('unlockBtn'),err=$('lockErr'),pw=$('pw').value;
   if(!pw){err.textContent='Vul het wachtwoord in.';return}
   btn.disabled=true;btn.textContent='Bezig…';err.textContent='';
-  let key,secret;
-  try{key=await deriveKey(pw,unb64(VAULT.salt),VAULT.iter||ITER);secret=await unseal(key,VAULT.secret)}
-  catch(e){
-    // the cached copy may be from before a password change: fetch it fresh once and try again
-    try{const v=await fetchVault();if(v&&v.salt!==VAULT.salt){VAULT=v;key=await deriveKey(pw,unb64(v.salt),v.iter||ITER);secret=await unseal(key,v.secret)}}catch(_){}
-    if(!secret){err.textContent='Dit wachtwoord klopt niet. Probeer het opnieuw.';btn.disabled=false;btn.textContent='Openen';$('pw').select();return}
-  }
-  KEY=key;CFG=secret;if($('remember').checked)await remember(key);
-  await startApp();
-});
-$('setupForm').addEventListener('submit',async ev=>{
-  ev.preventDefault();const err=$('suErr'),btn=$('suBtn');
-  const pw=$('suPw').value,token=$('suToken').value.trim(),people=nameList($('suPeople').value),guests=nameList($('suGuests').value).filter(n=>!people.includes(n));
-  if(pw.length<12){err.textContent='Kies een wachtwoord van minstens 12 tekens. Een zin van een paar woorden werkt het best.';$('suPw').focus();return}
-  if(pw!==$('suPw2').value){err.textContent='De twee wachtwoorden zijn niet gelijk.';$('suPw2').focus();return}
-  if(!token){err.textContent='Plak de GitHub-sleutel die je net hebt aangemaakt.';$('suToken').focus();return}
-  if(!people.length){err.textContent='Vul minstens één naam in voor de beurtrol.';$('suPeople').focus();return}
-  let logo='',state=null;
-  try{
-    const lf=$('suLogo').files[0];
-    if(lf){if(!/^image\//.test(lf.type)||lf.size>400000){err.textContent='Kies als logo een afbeelding van maximaal 400 kB.';return}logo=await readFile(lf,true)}
-    const bf=$('suBackup').files[0];if(bf)state=clean(JSON.parse(await readFile(bf)));
-  }catch(e){err.textContent='De back-up kon niet gelezen worden. Kies een koffie-backup .json bestand of laat het veld leeg.';return}
-  btn.disabled=true;btn.textContent='Bezig met instellen…';err.textContent='';
-  try{
-    const salt=crypto.getRandomValues(new Uint8Array(16)),key=await deriveKey(pw,salt,ITER),secret={token,people,guests,logo};
-    await saveVault(key,b64(salt),secret,token);
-    KEY=key;CFG=secret;if($('suRemember').checked)await remember(key);
-    if(state)pending.push({t:'replace',state});
-    await startApp();if(pending.length)schedulePush(100);
-  }catch(e){err.textContent=e&&e.message?e.message:'Instellen is niet gelukt. Controleer je verbinding en probeer het opnieuw.';btn.disabled=false;btn.textContent='Instellen en openen'}
+  let r;try{r=await api('POST','login',{password:pw,remember:$('remember').checked})}catch(e){r={status:0,json:{}}}
+  if(r.status===200){$('pw').value='';await enter();return}
+  err.textContent=r.status===401?'Dit wachtwoord klopt niet. Probeer het opnieuw.':r.json.message||'Inloggen is niet gelukt. Controleer je verbinding en probeer het opnieuw.';
+  btn.disabled=false;btn.textContent='Openen';$('pw').select();
 });
 
 /* ---------- admin ---------- */
 function adMsg(t,bad){const e=$('adMsg');e.textContent=t;e.className=bad?'err':'muted'}
 $('namesForm').addEventListener('submit',async ev=>{
-  ev.preventDefault();const people=nameList($('adPeople').value),guests=nameList($('adGuests').value).filter(n=>!people.includes(n));
+  ev.preventDefault();const people=nameList($('adPeople').value),guests=nameList($('adGuests').value).filter(n=>!people.includes(n)),body={people,guests};
   if(!people.length){adMsg('Vul minstens één naam in voor de beurtrol.',true);return}
-  adMsg('Namen opslaan…');
-  try{const secret=Object.assign({},CFG,{people,guests});await saveVault(KEY,VAULT.salt,secret,CFG.token);CFG=secret;PEOPLE=people;GUESTS=guests;
-    $('bWho').replaceChildren(...PEOPLE.concat(GUESTS).map(n=>h('option',null,n)));renderAll();adMsg('Namen opgeslagen. Anderen zien ze na opnieuw openen.')}
-  catch(e){adMsg(e.message||'Opslaan is niet gelukt.',true)}
-});
-$('tokenForm').addEventListener('submit',async ev=>{
-  ev.preventDefault();const token=$('adToken').value.trim();
-  if(!token){adMsg('Plak eerst de nieuwe GitHub-sleutel.',true);return}
-  adMsg('Sleutel controleren en opslaan…');
-  try{const secret=Object.assign({},CFG,{token});await saveVault(KEY,VAULT.salt,secret,token);CFG=secret;$('adToken').value='';adMsg('Nieuwe sleutel opgeslagen.');poll()}
-  catch(e){adMsg(e.message||'Opslaan is niet gelukt.',true)}
-});
-$('pwForm').addEventListener('submit',async ev=>{
-  ev.preventDefault();const pw=$('adPw').value;
-  if(pw.length<12){adMsg('Kies een wachtwoord van minstens 12 tekens.',true);return}
-  if(pw!==$('adPw2').value){adMsg('De twee wachtwoorden zijn niet gelijk.',true);return}
-  if(pending.length||pushing){adMsg('Wacht tot er Opgeslagen staat en probeer het dan opnieuw.',true);return}
-  adMsg('Wachtwoord wijzigen…');
-  try{
-    await pull();
-    const salt=crypto.getRandomValues(new Uint8Array(16)),key=await deriveKey(pw,salt,ITER);
-    await saveVault(key,b64(salt),CFG,CFG.token);KEY=key;
-    let had=false;try{had=!!localStorage.getItem(REMKEY)}catch(e){}if(had)await remember(key);
-    pending.push({t:'settings',patch:{}});schedulePush(100);
-    $('adPw').value='';$('adPw2').value='';adMsg('Wachtwoord gewijzigd. Laat deze pagina open tot er Opgeslagen staat. Anderen moeten het nieuwe wachtwoord invullen.');
-  }catch(e){adMsg(e.message||'Wijzigen is niet gelukt.',true)}
+  const lf=$('adLogo').files[0];
+  if(lf){if(!/^image\//.test(lf.type)||lf.size>400000){adMsg('Kies als logo een afbeelding van maximaal 400 kB.',true);return}body.logo=await readFile(lf,true)}
+  adMsg('Opslaan…');
+  try{const r=await api('POST','config',body);
+    if(r.status===401){toGate('Je bent uitgelogd. Vul het wachtwoord opnieuw in.');return}
+    if(r.status!==200){adMsg(r.json.message||'Opslaan is niet gelukt. Probeer het opnieuw.',true);return}
+    $('adLogo').value='';takeState(r.json);adMsg('Opgeslagen. Anderen zien het binnen een halve minuut.')}
+  catch(e){adMsg('Opslaan is niet gelukt. Controleer je verbinding.',true)}
 });
 
 /* ---------- boot ---------- */
-(async function(){
-  themeBtn();
-  if(!(window.crypto&&crypto.subtle)){gateMsg('Deze browser ondersteunt de versleuteling niet. Open de site via https in een recente browser.');return}
-  try{VAULT=await fetchVault()}catch(e){gateMsg('De site kan de gegevens niet bereiken. Controleer je verbinding en ververs de pagina.');return}
-  if(!VAULT){gateMsg('Eerste keer instellen. Dit hoeft maar één keer.');$('setupForm').hidden=false;$('suPw').focus();return}
-  try{
-    const rem=JSON.parse(localStorage.getItem(REMKEY)||'null');
-    if(rem&&rem.salt===VAULT.salt){
-      const key=await crypto.subtle.importKey('raw',unb64(rem.k),{name:'AES-GCM'},true,['encrypt','decrypt']);
-      CFG=await unseal(key,VAULT.secret);KEY=key;await startApp();return;
-    }
-  }catch(e){try{localStorage.removeItem(REMKEY)}catch(_){}}
-  let msg='';try{msg=sessionStorage.getItem('kcn-melding')||'';sessionStorage.removeItem('kcn-melding')}catch(e){}
-  gateMsg(msg||'Vul het wachtwoord in om verder te gaan.');$('lockForm').hidden=false;$('pw').focus();
-})();
+themeBtn();
+enter().catch(()=>{gateMsg('De site kan de gegevens niet bereiken. Controleer je verbinding en ververs de pagina.')});
 })();
 </script>
 </body>
